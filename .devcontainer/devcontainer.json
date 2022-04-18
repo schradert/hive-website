@@ -3,16 +3,25 @@
 {
     "name": "Electric Hive",
     "runArgs": ["--init"],
-    "dockerFile": "Dockerfile",
-    "remoteUser": "node",
-    "remoteEnv": {
-        "PATH": "${containerEnv:HOME}/.yarn/bin:${containerEnv:PATH}",
-        "PROJECT": "${containerWorkspaceFolderBasename}",
-        "WORKDIR": "${containerWorkspaceFolder}"
+    "build": {
+        "dockerfile": "Dockerfile",
+        // Update 'VARIANT' to pick a Node version: 16, 14, 12.
+        // Append -bullseye or -buster to pin to an OS version.
+        // Use -bullseye variants on local on arm64/Apple Silicon.
+        "args": {
+            "VARIANT": "16-bullseye"
+        }
     },
-    "mounts": [
-        "source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind"
-    ],
+    // "dockerFile": "Dockerfile",
+    "remoteUser": "node",
+    // "remoteEnv": {
+    //     "PATH": "${containerEnv:HOME}/.yarn/bin:${containerEnv:PATH}",
+    //     "PROJECT": "${containerWorkspaceFolderBasename}",
+    //     "WORKDIR": "${containerWorkspaceFolder}"
+    // },
+    // "mounts": [
+    //     "source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind"
+    // ],
     "extensions": [
         "esbenp.prettier-vscode",
         "ms-azuretools.vscode-docker",
@@ -21,4 +30,5 @@
         "dbaeumer.vscode-eslint",
         "jounqin.vscode-mdx"
     ]
+    // "postCreateCommand": "npm install"
 }
